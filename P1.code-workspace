@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../Downloads/Compressed/NammedTube-main"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"serv_cli_fifo.h": "c"
+		}
+	}
+}
