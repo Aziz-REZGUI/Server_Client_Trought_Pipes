@@ -7,61 +7,44 @@
 #include <sys/socket.h>
 #include <unistd.h> // read(), write(), close()
 #include "../serv_cli_fifo.h"
-#define MAX 80
 #define PORT 8080
 #define SA struct sockaddr
 void func(int sockfd)
 {
-    char buff[MAX];
-    int n;
     request req;
     response resp;
-    int fdreq, fdrep;
 
-    for (;;)
+    srand(getpid());
+    req.n = rand() % NMAX;
+    printf("la valeur choisis est %d\n", req.n);
+    req.pid = getpid();
+    write(sockfd, &req, sizeof(request));
+    read(sockfd, &resp, sizeof(response));
+
+    printf("la reponse est :\n");
+    int i;
+    for (i = 1; i < req.n; i++)
     {
-        // bzero(buff, sizeof(buff));
-        // printf("Saisir  n : ");
-        // n = 0;
-        // while ((buff[n++] = getchar()) != '\n')
-        //     ;
-        srand(getpid());
-        req.n = rand() % NMAX;
-        req.pid = getpid();
-        write(sockfd, &req, sizeof(request));
-        // bzero(buff, sizeof(buff));
-        read(sockfd, &resp, sizeof(response));
-        // printf("From Server : %s", buff);
-        // if ((strncmp(buff, "exit", 4)) == 0)
-        // {
-        //     printf("Client Exit...\n");
-        //     break;
-        // }
-        printf("la reponse est :\n");
-        int i;
-        for (i = 0; i < req.n - 1; i++)
-        {
-            printf("%d, ", resp.tab[i]);
-        }
-        printf("%d", resp.tab[i + 1]);
-        printf("\n");
+        printf("%d, ", resp.tab[i]);
     }
+    printf("%d", resp.tab[i + 1]);
+    printf("\n");
 }
 
 int main()
 {
-    int sockfd, connfd;
-    struct sockaddr_in servaddr, cli;
+    int sockfd;
+    struct sockaddr_in servaddr;
 
     // socket create and verification
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd == -1)
     {
-        printf("socket creation failed...\n");
+        printf("erreur dans la création du soket...\n");
         exit(0);
     }
     else
-        printf("Socket successfully created..\n");
+        printf("création du socket avec succées..\n");
     bzero(&servaddr, sizeof(servaddr));
 
     // assign IP, PORT
@@ -72,11 +55,11 @@ int main()
     // connect the client socket to server socket
     if (connect(sockfd, (SA *)&servaddr, sizeof(servaddr)) != 0)
     {
-        printf("connection with the server failed...\n");
+        printf("erreur de connection avec le serveur...\n");
         exit(0);
     }
     else
-        printf("connected to the server..\n");
+        printf("connection établit..\n");
 
     // function for chat
     func(sockfd);

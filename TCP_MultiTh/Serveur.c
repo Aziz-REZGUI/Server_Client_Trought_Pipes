@@ -5,69 +5,51 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <sys/types.h>
+#include <signal.h>
 #include <unistd.h> // read(), write(), close()
 #include "../serv_cli_fifo.h"
-#define MAX 80
 #define PORT 8080
 #define SA struct sockaddr
 
 // Function designed for chat between client and server.
 void func(int connfd)
 {
-  char buff[MAX];
-  int n;
   request req;
   response resp;
-  int fdreq, fdrep;
+
   srand(getpid());
-  // infinite loop for chat
-  for (;;)
+
+  // read the message from client and copy it in buffer
+  read(connfd, &req, sizeof(struct request));
+  printf("le client a evoyé %d\n", req.n);
+
+  for (int i = 0; i < req.n; i++)
   {
-    bzero(buff, MAX);
-
-    // read the message from client and copy it in buffer
-    read(connfd, &fdreq, sizeof(struct request));
-    // print buffer which contains the client contents
-    // printf("From client: %s\t To client : ", buff);
-    for (int i = 0; i < req.n; i++)
-    {
-      resp.tab[i] = rand() % NMAX;
-    }
-    resp.pid = getpid();
-    bzero(buff, MAX);
-    n = 0;
-    // copy server message in the buffer
-    // while ((buff[n++] = getchar()) != '\n')
-    //;
-
-    // and send that buffer to client
-    // write(connfd, buff, sizeof(buff));
-    write(connfd, &resp, sizeof(response));
-
-    // if msg contains "Exit" then server exit and chat ended.
-    // if (strncmp("exit", buff, 4) == 0)
-    // {
-    //   printf("Server Exit...\n");
-    //   break;
-    // }
+    resp.tab[i] = rand() % NMAX;
   }
+  resp.pid = getpid();
+
+  write(connfd, &resp, sizeof(response));
+
+  kill(getpid(), SIGKILL);
 }
 
 // Driver function
 int main()
 {
-  int sockfd, connfd, len;
+  int sockfd, connfd;
   struct sockaddr_in servaddr, cli;
+  socklen_t len;
 
   // socket create and verification
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
   if (sockfd == -1)
   {
-    printf("socket creation failed...\n");
+    printf("erreur dans la création du soket...\n");
     exit(0);
   }
   else
-    printf("Socket successfully created..\n");
+    printf("création du socket avec succées..\n");
   bzero(&servaddr, sizeof(servaddr));
 
   // assign IP, PORT
@@ -78,35 +60,55 @@ int main()
   // Binding newly created socket to given IP and verification
   if ((bind(sockfd, (SA *)&servaddr, sizeof(servaddr))) != 0)
   {
-    printf("socket bind failed...\n");
+    printf("erreur du binding..\n");
     exit(0);
   }
   else
-    printf("Socket successfully binded..\n");
+    printf("Binding avec succées..\n");
 
   // Now server is ready to listen and verification
   if ((listen(sockfd, 5)) != 0)
   {
-    printf("Listen failed...\n");
+    printf("erreur d'écoute..\n");
     exit(0);
   }
   else
-    printf("Server listening..\n");
-  len = sizeof(cli);
-
+    printf("Le serveur est en train d'écoute..\n");
+  len = sizeof(struct sockaddr_in);
   // Accept the data packet from client and verification
-  connfd = accept(sockfd, (SA *)&cli, &len);
-  if (connfd < 0)
+
+  int pid;
+
+  while (1)
   {
-    printf("server accept failed...\n");
-    exit(0);
+    connfd = accept(sockfd, (SA *)&cli, &len);
+    if (connfd < 0)
+    {
+      printf("ecceur d'accéptation ...\n");
+      exit(0);
+    }
+    else
+      printf("accéptation avec succées...\n");
+    pid = fork();
+    if (pid < 0)
+    {
+      perror("erreur de creation du nouveau porcess");
+      exit(1);
+    }
+    else
+    {
+      if (pid == 0)
+      { // Function for chatting between client and server
+        close(sockfd);
+
+        func(connfd);
+        close(connfd);
+      }
+      else
+      {
+        close(connfd);
+      }
+    }
   }
-  else
-    printf("server accept the client...\n");
-
-  // Function for chatting between client and server
-  func(connfd);
-
-  // After chatting close the socket
-  close(sockfd);
+  return 0;
 }

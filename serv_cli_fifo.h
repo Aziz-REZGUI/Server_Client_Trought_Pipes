@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+
 #define NMAX 10
   char *fifo1 = "fifo1";
   char *fifo2 = "fifo2";
