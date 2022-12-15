@@ -1,6 +1,6 @@
 #include "serv_cli_fifo.h"
 #include "Handlers_Serv.h"
-
+#include <string.h>
 void hand_endServ(int sig)
 {
   printf("arret du serveur ");
@@ -13,7 +13,10 @@ int main()
   request req;
   response resp;
   int fdreq, fdrep;
+  int out = open("SPIPE.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+  dup2(out, 1);
   printf("Demarrage...");
+  write(out, "Demarrage...", strlen("Demarrage..."));
 
   /* Création des tubes nommés */
   mkfifo(fifo1, 0666);

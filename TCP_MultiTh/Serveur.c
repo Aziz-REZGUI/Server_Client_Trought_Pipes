@@ -40,16 +40,23 @@ int main()
   int sockfd, connfd;
   struct sockaddr_in servaddr, cli;
   socklen_t len;
+  int out = open("STCP.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 
   // socket create and verification
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
+
   if (sockfd == -1)
   {
+    // dup2(out, 1);
+    write(out, "erreur dans la création du soket...\n", strlen("erreur dans la création du soket...\n"));
     printf("erreur dans la création du soket...\n");
     exit(0);
   }
   else
+  {
+    write(out, "création du socket avec succées..\n", strlen("création du socket avec succées..\n"));
     printf("création du socket avec succées..\n");
+  }
   bzero(&servaddr, sizeof(servaddr));
 
   // assign IP, PORT
@@ -60,20 +67,28 @@ int main()
   // Binding newly created socket to given IP and verification
   if ((bind(sockfd, (SA *)&servaddr, sizeof(servaddr))) != 0)
   {
+    write(out, "erreur du binding..\n", strlen("erreur du binding..\n"));
+
     printf("erreur du binding..\n");
     exit(0);
   }
   else
+  {
+    write(out, "Binding avec succées..\n", strlen("Binding avec succées..\n"));
     printf("Binding avec succées..\n");
-
+  }
   // Now server is ready to listen and verification
   if ((listen(sockfd, 5)) != 0)
   {
+    write(out, "erreur d'écoute..\n", strlen("erreur d'écoute..\n"));
     printf("erreur d'écoute..\n");
     exit(0);
   }
   else
+  {
+    write(out, "Le serveur est en train d'écoute..\n", strlen("Le serveur est en train d'écoute..\n"));
     printf("Le serveur est en train d'écoute..\n");
+  }
   len = sizeof(struct sockaddr_in);
   // Accept the data packet from client and verification
 
@@ -81,10 +96,11 @@ int main()
 
   while (1)
   {
+    dup2(out, 1);
     connfd = accept(sockfd, (SA *)&cli, &len);
     if (connfd < 0)
     {
-      printf("ecceur d'accéptation ...\n");
+      printf("erreur d'accéptation ...\n");
       exit(0);
     }
     else
@@ -110,5 +126,6 @@ int main()
       }
     }
   }
+  close(out);
   return 0;
 }

@@ -33,8 +33,11 @@ void func(int sockfd)
 
 int main()
 {
+    
     int sockfd;
     struct sockaddr_in servaddr;
+    int out = open("CTCP.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    dup2(out, 1);
 
     // socket create and verification
     sockfd = socket(AF_INET, SOCK_STREAM, 0);

@@ -8,6 +8,8 @@ void hand_wakeUpClt(int sig)
 }
 int main()
 {
+     int out = open("CPIPE.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    dup2(out, 1);
     //  printf("debug");
     /* Déclarations */
     request req;
