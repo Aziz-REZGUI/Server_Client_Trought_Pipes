@@ -1,3 +1,0 @@
-création du socket avec succées..
-Binding avec succées..
-Le serveur est en train d'écoute..

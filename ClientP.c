@@ -10,12 +10,9 @@ int main()
 {
     int out = open("CPIPE.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
     dup2(out, 1);
-    //  printf("debug");
     /* Déclarations */
     request req;
     response resp;
-    // char *fifo1 = "fifo1";
-    // char *fifo2 = "fifo2";
     int fdreq, fdrep;
     /* Ouverture des tubes nommés */
     fdreq = open(fifo1, O_WRONLY);

@@ -1,7 +1,5 @@
 #include "include/serv_cli_fifo.h"
 
-
-// Function designed for chat between client and server.
 void func(int connfd)
 {
   request req;
@@ -9,7 +7,6 @@ void func(int connfd)
 
   srand(getpid());
 
-  // read the message from client and copy it in buffer
   read(connfd, &req, sizeof(struct request));
   printf("le client a evoyé %d\n", req.n);
 
@@ -24,7 +21,6 @@ void func(int connfd)
   kill(getpid(), SIGKILL);
 }
 
-// Driver function
 int main()
 {
   int sockfd, connfd;
@@ -32,15 +28,12 @@ int main()
   socklen_t len;
   int out = open("STCP.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 
-  // socket create and verification
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
   if (sockfd == -1)
   {
-    // dup2(out, 1);
     write(out, "erreur dans la création du soket...\n", strlen("erreur dans la création du soket...\n"));
     printf("erreur dans la création du soket...\n");
-    // exit(0);
   }
   else
   {
@@ -49,19 +42,15 @@ int main()
   }
   bzero(&servaddr, sizeof(servaddr));
 
-  // assign IP, PORT
   servaddr.sin_family = AF_INET;
   servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
   servaddr.sin_port = htons(PORT);
-
-  // Binding newly created socket to given IP and verification
 
   (bind(sockfd, (SA *)&servaddr, sizeof(servaddr)));
 
   write(out, "Binding avec succées..\n", strlen("Binding avec succées..\n"));
   printf("Binding avec succées..\n");
 
-  // Now server is ready to listen and verification
   if ((listen(sockfd, 5)) != 0)
   {
     write(out, "erreur d'écoute..\n", strlen("erreur d'écoute..\n"));
@@ -74,7 +63,6 @@ int main()
     printf("Le serveur est en train d'écoute..\n");
   }
   len = sizeof(struct sockaddr_in);
-  // Accept the data packet from client and verification
 
   int pid;
 
@@ -98,7 +86,7 @@ int main()
     else
     {
       if (pid == 0)
-      { // Function for chatting between client and server
+      {
         close(sockfd);
 
         func(connfd);
