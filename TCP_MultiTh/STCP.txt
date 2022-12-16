@@ -2,4 +2,4 @@ création du socket avec succées..
 Binding avec succées..
 Le serveur est en train d'écoute..
 accéptation avec succées...
-le client a evoyé 3
+le client a evoyé 1

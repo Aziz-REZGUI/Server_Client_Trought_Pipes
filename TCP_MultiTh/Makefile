@@ -5,7 +5,7 @@ TARGET_S=serveur
 IDIR=
 OBJ=
 
-all : Client.o Serveur.o
+all : Client.o Serveur.o interface.o
 
 
 Client.o :  
@@ -13,7 +13,10 @@ Client.o :
 
 Serveur.o : 
 	$(CC) $(CFLAGS) Serveur.c -o $(TARGET_S)
+interface.o : 
+	$(CC) $(CFLAGS) -o Test interface.c `pkg-config --cflags --libs gtk+-3.0` -rdynamic
 
 clean: 
 	rm $(TARGET_C) 
 	rm $(TARGET_S) 
+	rm Test
