@@ -50,7 +50,7 @@ int main()
     // dup2(out, 1);
     write(out, "erreur dans la création du soket...\n", strlen("erreur dans la création du soket...\n"));
     printf("erreur dans la création du soket...\n");
-    exit(0);
+    // exit(0);
   }
   else
   {

@@ -15,7 +15,7 @@ void func(int sockfd)
     response resp;
 
     srand(getpid());
-    req.n = rand() % NMAX;
+    req.n = 1 + (rand() % NMAX);
     printf("la valeur choisis est %d\n", req.n);
     req.pid = getpid();
     write(sockfd, &req, sizeof(request));
@@ -33,7 +33,7 @@ void func(int sockfd)
 
 int main()
 {
-    
+
     int sockfd;
     struct sockaddr_in servaddr;
     int out = open("CTCP.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
