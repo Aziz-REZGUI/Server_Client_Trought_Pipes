@@ -6,8 +6,8 @@
 #include <fcntl.h>
 
 #define NMAX 10
-  char *fifo1 = "fifo1";
-  char *fifo2 = "fifo2";
+char *fifo1 = "fifo1";
+char *fifo2 = "fifo2";
 // FIFO file path
 // const char *fifo1 = "./fifo1";
 // const char *fifo2 = "./fifo2";

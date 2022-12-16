@@ -6,7 +6,7 @@
 #include <strings.h> // bzero()
 #include <sys/socket.h>
 #include <unistd.h> // read(), write(), close()
-#include "../serv_cli_fifo.h"
+#include "include/serv_cli_fifo.h"
 #define PORT 8080
 #define SA struct sockaddr
 void func(int sockfd)

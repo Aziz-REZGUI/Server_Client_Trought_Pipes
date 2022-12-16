@@ -1,5 +1,5 @@
-#include "serv_cli_fifo.h"
-#include "Handlers_cli.h"
+#include "include/serv_cli_fifo.h"
+#include "include/Handlers_cli.h"
 
 void hand_wakeUpClt(int sig)
 {
@@ -8,7 +8,7 @@ void hand_wakeUpClt(int sig)
 }
 int main()
 {
-     int out = open("CPIPE.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    int out = open("CPIPE.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
     dup2(out, 1);
     //  printf("debug");
     /* Déclarations */

@@ -7,7 +7,7 @@
 #include <sys/types.h>
 #include <signal.h>
 #include <unistd.h> // read(), write(), close()
-#include "../serv_cli_fifo.h"
+#include "include/serv_cli_fifo.h"
 #define PORT 8080
 #define SA struct sockaddr
 
@@ -70,7 +70,7 @@ int main()
     write(out, "erreur du binding..\n", strlen("erreur du binding..\n"));
 
     printf("erreur du binding..\n");
-    exit(0);
+    // exit(0);
   }
   else
   {

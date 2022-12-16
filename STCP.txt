@@ -1,2 +1,3 @@
 création du socket avec succées..
 erreur du binding..
+Le serveur est en train d'écoute..
