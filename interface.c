@@ -63,7 +63,7 @@ void clientP()
         if (f == 0)
         {
             // printf("test");
-            execlp("./clientP", NULL);
+            execlp("./clientP", (char *)NULL);
             // system("./client");
         }
         else
@@ -115,7 +115,7 @@ void serverP()
     {
         if (f == 0)
         {
-            execlp("./serveurP", NULL);
+            execlp("./serveurP", (char *)NULL);
             // system("./serveur");
         }
         else
@@ -168,7 +168,7 @@ void server_btn()
     {
         if (f == 0)
         {
-            execlp("./serveurSK", NULL);
+            execlp("./serveurSK", (char *)NULL);
 
             // system("./serveur");
         }
@@ -230,7 +230,7 @@ void client_btn()
         if (f == 0)
         {
             // printf("test");
-            execlp("./clientSK", NULL);
+            execlp("./clientSK", (char *)NULL);
             // system("./client");
         }
         else
