@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS= 
+CFLAGS=
 TARGET_C =client
 TARGET_S=serveur
 IDIR=
@@ -11,10 +11,14 @@ interface.o :
 Client.o :  
 	$(CC) $(CFLAGS) ClientSK.c -o clientSK
 	$(CC) $(CFLAGS) ClientP.c -o clientP
+	touch CTCP.txt
+	touch CPIPE.txt
 
 Serveur.o : 
 	$(CC) $(CFLAGS) ServeurSK.c -o serveurSK
 	$(CC) $(CFLAGS) ServeurP.c -o serveurP
+	touch STCP.txt
+	touch SPIPE.txt
 
 clean: 
 	rm Final

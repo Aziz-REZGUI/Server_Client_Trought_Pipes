@@ -1,19 +1,25 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <unistd.h>
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-
+#include <arpa/inet.h> // inet_addr()
+#include <netdb.h>
+#include <strings.h> // bzero()
+#include <sys/socket.h>
+#include <unistd.h> // read(), write(), close()
+#include <netinet/in.h>
+#include <errno.h>
+#include <string.h>
+#include <signal.h>
+#define PORT 8080
+#define SA struct sockaddr
 #define NMAX 10
 char *fifo1 = "fifo1";
 char *fifo2 = "fifo2";
-// FIFO file path
-// const char *fifo1 = "./fifo1";
-// const char *fifo2 = "./fifo2";
-// Creating the named file(FIFO)
+
 int mode = S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR | S_IWGRP | S_IWOTH;
-//  int prep = mkfifo(fifo2,S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR | S_IWGRP | S_IWOTH);
 
 // Structs
 

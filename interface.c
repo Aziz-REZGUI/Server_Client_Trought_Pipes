@@ -1,11 +1,12 @@
 #include <gtk/gtk.h>
-#include <stdio.h>
+
 #include "include/serv_cli_fifo.h"
 GtkLabel *mylabel; // Label
 GtkWidget *app;    // Window
 GtkBuilder *builder;
 // GtkButton *btnS, *btnC;
 GtkTextView *viewC, *viewS, *viewSP, *viewCP;
+int test = 1;
 
 void retour()
 {
@@ -50,6 +51,7 @@ void clientP()
         gtk_text_buffer_get_iter_at_offset(buffer, &iter, 0);
         gtk_text_view_set_buffer(viewCP, buffer);
         gtk_text_buffer_insert(buffer, &iter, out, -1);
+
         serverP();
         // GtkTextView *view = (GtkTextView *)gtk_builder_get_object(builder, "TV_CTCP");
         // // GtkEntry* entry = (GtkEntry*) gtk_builder_get_object (builder,"entry1");
@@ -115,7 +117,9 @@ void serverP()
     {
         if (f == 0)
         {
+
             execlp("./serveurP", (char *)NULL);
+
             // system("./serveur");
         }
         else
@@ -140,7 +144,7 @@ void server_btn()
 
         if (NULL == ptr)
         {
-            printf("file TCP.txt can't be opened \n");
+            printf("file STCP.txt can't be opened \n");
             exit(1);
         }
 
@@ -168,6 +172,7 @@ void server_btn()
     {
         if (f == 0)
         {
+
             execlp("./serveurSK", (char *)NULL);
 
             // system("./serveur");

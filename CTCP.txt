@@ -1,0 +1,5 @@
+création du socket avec succées..
+connection établit..
+la valeur choisis est 10
+la reponse est :
+7, 1, 0, 5, 2, 4, 6, 1, 2, -410451360

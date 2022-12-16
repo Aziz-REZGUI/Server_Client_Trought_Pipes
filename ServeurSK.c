@@ -1,15 +1,5 @@
-#include <stdio.h>
-#include <netdb.h>
-#include <netinet/in.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <signal.h>
-#include <unistd.h> // read(), write(), close()
 #include "include/serv_cli_fifo.h"
-#define PORT 8080
-#define SA struct sockaddr
+
 
 // Function designed for chat between client and server.
 void func(int connfd)
@@ -65,18 +55,12 @@ int main()
   servaddr.sin_port = htons(PORT);
 
   // Binding newly created socket to given IP and verification
-  if ((bind(sockfd, (SA *)&servaddr, sizeof(servaddr))) != 0)
-  {
-    write(out, "erreur du binding..\n", strlen("erreur du binding..\n"));
 
-    printf("erreur du binding..\n");
-    // exit(0);
-  }
-  else
-  {
-    write(out, "Binding avec succées..\n", strlen("Binding avec succées..\n"));
-    printf("Binding avec succées..\n");
-  }
+  (bind(sockfd, (SA *)&servaddr, sizeof(servaddr)));
+
+  write(out, "Binding avec succées..\n", strlen("Binding avec succées..\n"));
+  printf("Binding avec succées..\n");
+
   // Now server is ready to listen and verification
   if ((listen(sockfd, 5)) != 0)
   {

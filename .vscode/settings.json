@@ -27,5 +27,14 @@
     "**/.*/**",
     "**/.vscode",
     "**/.vscode/**"
-  ]
+  ],
+  "files.associations": {
+    "socket.h": "c",
+    "stdio.h": "c",
+    "netdb.h": "c",
+    "errno.h": "c",
+    "unistd.h": "c",
+    "in.h": "c",
+    "signal.h": "c"
+  }
 }

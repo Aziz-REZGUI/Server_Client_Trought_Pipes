@@ -1,6 +1,6 @@
 #include "include/serv_cli_fifo.h"
 #include "include/Handlers_Serv.h"
-#include <string.h>
+
 void hand_endServ(int sig)
 {
   printf("arret du serveur ");
